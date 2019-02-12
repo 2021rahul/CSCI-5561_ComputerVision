@@ -4,12 +4,37 @@
 \usepackage{graphicx}
 \usepackage[x11names,table]{xcolor}
 \usepackage{caption}
+\usepackage{subcaption}
 \usepackage{listings}
 \usepackage{float}
+\usepackage{graphicx}
+\usepackage{wrapfig}
 \begin{document}
 \noindent
 \large \textbf{Rahul Ghosh} \hfill \textbf{Assignment\#1}\\
 \normalsize Student ID: 5476965 \hfill CSci 5561\\
 
-\section*{Solution of Problem 1}
+\section*{HISTOGRAM OF ORIENTED GRADIENTS}
+
+\subsection*{HOG Features}
+\begin{figure}[!htb]
+\minipage{0.35\textwidth}
+  \includegraphics[width=\linewidth]{HW1/RESULT/HOG.png}
+  \subcaption{HOG}\label{fig:HOG IMAGE}
+\endminipage
+\minipage{0.3\textwidth}
+  \includegraphics[width=\linewidth]{HW1/RESULT/HOG_EYE.png}
+  \subcaption{HOG-EYE}
+  \label{fig:HOG EYE IMAGE}
+\endminipage\hfill
+\minipage{0.3\textwidth}
+  \includegraphics[width=\linewidth]{HW1/RESULT/HOG_TONGUE.png}
+  \subcaption{HOG-TONGUE}
+  \label{fig:HOG TONGUE IMAGE}
+\endminipage\hfill
+
+\caption{Visualizing the HOG features}
+\label{fig:fig}
+\end{figure}
+
 \end{document}
