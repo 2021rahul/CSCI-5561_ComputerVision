@@ -1,9 +1,9 @@
 function ori_histo_normalized = GetBlockDescriptor(ori_histo, block_size)
     ori_histo_size = size(ori_histo);
     ori_histo_normalized = zeros(ori_histo_size(1)-1, ori_histo_size(2)-1, block_size*block_size*ori_histo_size(3));
-    for i=ori_histo_size(1)-1
-        for j=ori_histo_size(2)-1
-            ori_histo_block = ori_histo(i:i+1, j:j+1, :);
+    for i=1:ori_histo_size(1)-1
+        for j=1:ori_histo_size(2)-1
+            ori_histo_block = ori_histo(i:i+block_size-1, j:j+block_size-1, :);
             ori_histo_normalized(i, j, :) = NormalizeLocal(ori_histo_block);
         end
     end   
