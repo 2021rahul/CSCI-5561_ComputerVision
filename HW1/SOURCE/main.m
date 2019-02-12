@@ -16,18 +16,18 @@ subplot(1,3,3), imagesc(im_filtered_y), title('Differential along y direction');
 
 figure;
 set(gcf, 'Position',  [100, 100, 2000, 500])
-subplot(1,3,1), imagesc(grad_mag)
-subplot(1,3,2), imagesc(grad_angle), colorbar
+subplot(1,3,1), imagesc(grad_mag), title('Gradient Magnitude');
+subplot(1,3,2), imagesc(grad_angle), colorbar, title('Gradient Angle');
 img_size = size(img);
 img_filtered_size = size(im_filtered_x);
 [x,y] = meshgrid(1:3:img_size(2), 1:3:img_size(1));
-subplot(1,3,3), imshow(img), hold on;
+subplot(1,3,3), imshow(img), title('Gradient'), hold on;
 q = quiver(x,y,im_filtered_y(2:3:img_filtered_size(1)-1,2:3:img_filtered_size(2)-1),im_filtered_x(2:3:img_filtered_size(1)-1,2:3:img_filtered_size(2)-1));
 q.Color = 'red'; q.AutoScaleFactor = 2; q.LineWidth = 2; q.ShowArrowHead = 'off';
 
 figure;
 set(gcf, 'Position',  [100, 100, 2000, 500])
-subplot(1,1,1), imshow(img), hold on;
+subplot(1,1,1), imshow(img), title('HOG features'), hold on;
 [h, w, d] = size(hog);
 [x,y] = meshgrid(5:8:8*w, 5:8:8*h);
 for i=1:6
