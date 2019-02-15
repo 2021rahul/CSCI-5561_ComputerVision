@@ -1,4 +1,4 @@
-\documentclass[letter, 11pt]{article}
+\documentclass[letter, 10pt]{article}
 \usepackage{fullpage}
 \usepackage[margin=0.5in]{geometry}
 \usepackage{graphicx}
@@ -7,6 +7,7 @@
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{float}
+\pagenumbering{gobble}
 
 \begin{document}
 \noindent
@@ -28,7 +29,7 @@ The given gray-scale image is differentiated along the x and y direction by conv
     -1 & -1 & -1\\
     \end{bmatrix}
 \end{equation*}
-The gradient magnitude and direction are then calculated from the filtered images along the x and y directions. The image is divided into blocks and the gradients in each block are divided into 6 different bins according to their gradient angle. Following are the bins used in this assignment:
+The gradient magnitude and direction are then calculated from the filtered images along the x and y directions as shown in Figure 1. The image is divided into blocks and the gradients in each block are divided into 6 different bins according to their gradient angle. Following are the bins used in this assignment:
 \begin{equation*}
     bin_1 = [\frac{11\pi}{12}, \pi)\cup[0, \frac{\pi}{12}),
     bin_2 = [\frac{\pi}{12}, \frac{3\pi}{12}),
@@ -44,24 +45,46 @@ To visualize, we take the sum of the magnitude for each bin and take the mid poi
     \theta_1 = 0, \theta_2 = \frac{2\pi}{12}, \theta_3 = \frac{4\pi}{12}, \theta_4 = \frac{6\pi}{12}, \theta_5 = \frac{8\pi}{12}, \theta_6 = \frac{10\pi}{12}
 \end{equation*}
 
-The vector is plotted on the given block centre using the $quiver$ function in MATLAB. 
-\subsection*{HOG Features}
+The vector is plotted perpendicular to the given block centre using the $quiver$ method in MATLAB as shown in Figure 2. 
+\subsection*{RESULTS}
 \begin{figure}[!h]
-\minipage{0.33\textwidth}
-  \includegraphics[width=\linewidth]{HW1/RESULT/HOG.png}
-  \subcaption{HOG}\label{fig:HOG IMAGE}
-\endminipage\hfill
-\minipage{0.33\textwidth}
-  \includegraphics[width=\linewidth]{HW1/RESULT/HOG_EYE.png}
-  \subcaption{HOG-EYE}
-  \label{fig:HOG EYE IMAGE}
-\endminipage\hfill
-\minipage{0.33\textwidth}
-  \includegraphics[width=\linewidth]{HW1/RESULT/HOG_TONGUE.png}
-  \subcaption{HOG-TONGUE}
-  \label{fig:HOG TONGUE IMAGE}
-\endminipage\hfill
-\caption{Visualizing the HOG features}
+    \minipage{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{HW1/RESULT/GRADIENT.png}
+        \subcaption{Gradients}
+    \endminipage\hfill
+    \minipage{0.25\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/GRADIENT_EYE.png}
+        \subcaption{Gradients\_EYE}
+    \endminipage\hfill
+    \minipage{0.25\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/GRADIENT_TONGUE.png}
+        \subcaption{Gradients\_TONGUE}
+    \endminipage\hfill
+    \caption{Gradients of Image}
+\end{figure}
+
+\begin{figure}[!h]
+    \minipage{0.33\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/HOG.png}
+        \subcaption{HOG Features}\label{fig:HOG IMAGE}
+    \endminipage\hfill
+    \minipage{0.33\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/HOG_EYE.png}
+        \subcaption{HOG Features-EYE}
+        \label{fig:HOG EYE IMAGE}
+    \endminipage\hfill
+    \minipage{0.33\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/HOG_TONGUE.png}
+        \subcaption{HOG Features-TONGUE}
+        \label{fig:HOG TONGUE IMAGE}
+    \endminipage\hfill
+    \caption{Visualization of HOG}
 \label{fig:fig}
 \end{figure}
 
