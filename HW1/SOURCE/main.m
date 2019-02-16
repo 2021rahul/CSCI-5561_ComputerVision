@@ -6,7 +6,6 @@ im_filtered_x = FilterImage(img, filter_x);
 im_filtered_y = FilterImage(img, filter_y);
 [grad_mag, grad_angle] = GetGradient(im_filtered_x, im_filtered_y);
 ori_histo = BuildHistogram(grad_mag, grad_angle, 8);
-hog = GetBlockDescriptor(ori_histo, 2);
 
 figure;
 set(gcf, 'Position',  [100, 100, 2000, 500]);
@@ -28,13 +27,13 @@ q.Color = 'red'; q.AutoScaleFactor = 2; q.LineWidth = 2; q.ShowArrowHead = 'off'
 figure;
 set(gcf, 'Position',  [100, 100, 2000, 500])
 subplot(1,1,1), imshow(img), title('HOG features'), hold on;
-[h, w, d] = size(hog);
+[h, w, d] = size(ori_histo);
 [x,y] = meshgrid(5:8:8*w, 5:8:8*h);
 for i=1:6
-    magnitude = hog(:,:,i)+hog(:,:,i+6)+hog(:,:,i+12)+hog(:,:,i+18);
+    magnitude = ori_histo(:,:,i);
     theta = 2*(i-1)*pi/12;
     hog_x = magnitude.*(cos(theta-pi/2)*ones(h,w));
     hog_y = magnitude.*(sin(theta-pi/2)*ones(h,w));
-    q = quiver(x,y,hog_x, hog_y); q.Color='red'; q.AutoScaleFactor = 0.5; q.LineWidth = 1; q.ShowArrowHead = 'on';
+    q = quiver(x,y,hog_x, hog_y); q.Color='red'; q.AutoScaleFactor = 1; q.LineWidth = 1.5; q.ShowArrowHead = 'on';
     hold on;
 end
