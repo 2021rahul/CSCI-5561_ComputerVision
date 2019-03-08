@@ -2,13 +2,13 @@
 \usepackage{fullpage}
 \usepackage[margin=0.5in]{geometry}
 \usepackage{graphicx}
+\usepackage{wrapfig}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{listings}
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{float}
-\usepackage{media9}
-\usepackage{animate}
 
 \pagenumbering{gobble}
 
@@ -19,49 +19,45 @@
 
 \section*{IMAGE REGISTRATION}
 \subsection*{Methods}
-Given an object/template, the aim of this project is to track the object/template in the given target frames.
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=\linewidth]{HW2/RESULT/Frames.fig}
-    \figure{Input Images}
-    
-\begin{equation*}
-    filter\_x = \begin{bmatrix}
-    1 & 0 & -1\\
-    1 & 0 & -1\\
-    1 & 0 & -1\\
-    \end{bmatrix}
-    and\ filter\_y = \begin{bmatrix}
-    1 & 1 & 1\\
-    0 & 0 & 0\\
-    -1 & -1 & -1\\
-    \end{bmatrix}
-\end{equation*}
-The gradient magnitude and direction are then calculated from the filtered images along the x and y directions as shown in Figure 1. The image is divided into blocks and the gradients in each block are divided into 6 different bins according to their gradient angle. Following are the bins used in this assignment:
-\begin{equation*}
-    bin_1 = [\frac{11\pi}{12}, \pi)\cup[0, \frac{\pi}{12}),
-    bin_2 = [\frac{\pi}{12}, \frac{3\pi}{12}),
-    bin_3 = [\frac{3\pi}{12}, \frac{5\pi}{12}),
-    bin_4 = [\frac{5\pi}{12}, \frac{7\pi}{12}),
-    bin_5 = [\frac{7\pi}{12}, \frac{9\pi}{12}),
-    bin_6 = [\frac{9\pi}{12}, \frac{11\pi}{12})
-\end{equation*}
-Next, to take into account the illumination and contrast, the histograms of gradients of each block is normalized using its $2\times2$ neighbors and the corresponding histograms are concatenated resulting in a 24 ($6\times4$, one for each block) length hog descriptor for each block.
+Given an object/template, the aim of this project is to track the object/template in the given target frames as shown in Figure 1.
 
-To visualize, we take the sum of the magnitude for each bin and take the mid point of the bin as the angle as shown below:
-\begin{equation*}
-    \theta_1 = 0, \theta_2 = \frac{2\pi}{12}, \theta_3 = \frac{4\pi}{12}, \theta_4 = \frac{6\pi}{12}, \theta_5 = \frac{8\pi}{12}, \theta_6 = \frac{10\pi}{12}
-\end{equation*}
+% \begin{figure}[!h]
+%     \begin{center}
+%         \includegraphics[width=0.45\textwidth]{HW2/RESULT/Frames.png}
+%     \end{center}
+%     \caption{Model Loss vs Global\_step}
+% \end{figure}
 
-The vector is plotted perpendicular to the given block centre using the $quiver$ method in MATLAB as shown in Figure 2. 
+We begin by computing the sift features of both the template and target images using the $vl\_feat$ library and pruning those images using the ration test and bidirectional consistency. The matched features between the Template and Target1 are shown in Figure 2.
+
+% \begin{figure}[!h]
+%     \begin{center}
+%         \includegraphics[width=0.45\textwidth]{HW2/RESULT/MatchedFeatures.png}
+%     \end{center}
+%     \caption{Matched Features}
+% \end{figure}
+
+The images are now aligned using the features by calculating the transformation matrix A using RANSAC algorithm. The bounding box in Figure 3 shows the how the Template aligns with the Target Image. The target is then warped to the template image and the inital error image is shown in Figure 3.
+
+% \begin{figure}[!h]
+%     \begin{center}
+%         \includegraphics[width=0.45\textwidth]{HW2/RESULT/AlignedWarpedImage.png}
+%     \end{center}
+%     \caption{Matched Features}
+% \end{figure}
+
+We refine the transformation matrix using the Inverse Compositional Image Alignment algorithm. The error plot over iterations is shown in Figure 4.
+
+% \begin{figure}[!h]
+%     \begin{center}
+%         \includegraphics[width=0.45\textwidth]{HW2/RESULT/Error.png}
+%     \end{center}
+%     \caption{Matched Features}
+% \end{figure}
+
+For multiframe tracking we start with the original template and track it in Target1. We initialize the transformation matrix A using image alignment using features. For every target iteration we use a initial A and refine it using inverse compositional alignment. Now we update the template by warping the target image and also update the initial A using the refined A for tracking in the next frame. Figure 5 shows the updation of the tempate image and the tracked object is shown in Figure 6. 
+
 \subsection*{RESULTS}
-\includemedia[
-  width=0.4\linewidth,
-  height=0.3\linewidth,
-  activate=pageopen,
-  addresource=HW2/RESULT/Frames.MP4,
-  flashvars={source=HW2/RESULT/Frames.MP4}
-]{}{VPlayer.swf}
 
 \begin{figure}[!h]
     \minipage{0.5\textwidth}
