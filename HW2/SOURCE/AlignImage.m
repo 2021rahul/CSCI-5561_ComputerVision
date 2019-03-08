@@ -11,7 +11,6 @@ function [A_refined] = AlignImage(template, target, A)
     
     epsilon=0.01;
     error=[];
-    iter=1;
     delp = ones(6,1);
     while norm(delp) > epsilon
         [I_warped, F] = GetWarpedImage(template, target, A, template_x, template_y);

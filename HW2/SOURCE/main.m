@@ -7,57 +7,92 @@ target2 = imread("../DATA/2/IMAGE2.png");
 target3 = imread("../DATA/2/IMAGE3.png");
 target4 = imread("../DATA/2/IMAGE4.png");
 
-set(gcf, 'Position',  [100, 100, 3000, 200])
-subplot(1,5,1), image(template), title('Template');
-subplot(1,5,2), image(target1), title('Target1');
-subplot(1,5,3), image(target2), title('Target2');
-subplot(1,5,4), image(target3), title('Target3');
-subplot(1,5,5), image(target4), title('Target4');
-%%
 template = rgb2gray(template);
 template = imresize(template, 0.1);
 target1 = rgb2gray(target1);
 target2 = rgb2gray(target2);
 target3 = rgb2gray(target3);
 target4 = rgb2gray(target4);
+
 image_cell = {target1 target2 target3 target4};
+
+figure;
+set(gcf, 'Position',  [100, 100, 3000, 200])
+subplot(1,5,1), image(repmat(template,1,1,3)), title('Template');
+subplot(1,5,2), image(repmat(image_cell{1},1,1,3)), title('Target1');
+subplot(1,5,3), image(repmat(image_cell{2},1,1,3)), title('Target2');
+subplot(1,5,4), image(repmat(image_cell{3},1,1,3)), title('Target3');
+subplot(1,5,5), image(repmat(image_cell{4},1,1,3)), title('Target4');
 %%
-[x1, x2] = FindMatch(template,target);
+[x1, x2] = FindMatch(template,image_cell{1});
 %%
 figure;ax=axes;
-showMatchedFeatures(template, target, x1, x2, 'montage','Parent',ax);
+showMatchedFeatures(template, image_cell{1}, x1, x2, 'montage','Parent',ax);
 %%
-A = AlignImageUsingFeature(x1, x2, 3, 500);
-%%
-DrawBox(A, template, target);
-%%
+A = AlignImageUsingFeature(x1, x2, 3, 1000);
 output_size=size(template);
-I_warped = WarpImage(target,A,output_size);
-figure;
-set(gcf, 'Position',  [100, 100, 3000, 500])
-subplot(1,4,1), imshow(target), title('Target Image');
-subplot(1,4,2), imshow(I_warped), title('Warped Image');
-subplot(1,4,3), imshow(template), title('Template Image');
-subplot(1,4,4), imshow(abs(template-I_warped)), title('Error Image');
+I_warped = WarpImage(image_cell{1}, A, output_size);
 %%
-A_refined = AlignImage(template, target, A);
-%%
-frame1 = imread("../DATA/2/IMAGE1.png");
-frame2 = imread("../DATA/2/IMAGE2.png");
-frame3 = imread("../DATA/2/IMAGE3.png");
-frame4 = imread("../DATA/2/IMAGE4.png");
-image_cell = {rgb2gray(frame1) rgb2gray(frame2) rgb2gray(frame3) rgb2gray(frame4)};
+template1 = [1,1];
+template2 = [output_size(2),1];
+template3 = [output_size(2), output_size(1)];
+template4 = [1,output_size(1)];
 
-set(gcf, 'Position',  [100, 100, 3000, 500])
-subplot(1,4,1), imshow(frame1), title('Frame1');
-subplot(1,4,2), imshow(frame2), title('Frame2');
-subplot(1,4,3), imshow(frame3), title('Frame3');
-subplot(1,4,4), imshow(frame4), title('Frame4');
+target1 = [A*[template1 1]']';
+target1 = target1(1:2);
+target2 = [A*[template2 1]']';
+target2 = target2(1:2);
+target3 = [A*[template3 1]']';
+target3 = target3(1:2);
+target4 = [A*[template4 1]']';
+target4 = target4(1:2);
+
+x = [target1(1) target2(1) target3(1) target4(1) target1(1)];
+y = [target1(2) target2(2) target3(2) target4(2) target1(2)];
+
+figure;
+set(gcf, 'Position',  [100, 100, 3000, 300])
+subplot(1,4,1), image(repmat(image_cell{1},1,1,3)), hold on, plot(x, y, 'r'), title('Target Image');
+subplot(1,4,2), image(repmat(I_warped,1,1,3)), title('Warped Image');
+subplot(1,4,3), image(repmat(template,1,1,3)), title('Template Image');
+subplot(1,4,4), image(repmat(abs(template-I_warped),1,1,3)), title('Error Image');
+%%
+A_refined = AlignImage(template, image_cell{1}, A);
 %%
 [A_cell, template_cell] = TrackMultiFrames(template, image_cell);
 %%
-for i=1:4
-    figure(i);
+i=4;
+template = template_cell{i};
+A = A_cell{i};
+target = image_cell{i};
+
+output_size=size(template);
+I_warped = WarpImage(target, A, output_size);
+
+template1 = [1,1];
+template2 = [output_size(2),1];
+template3 = [output_size(2), output_size(1)];
+template4 = [1,output_size(1)];
+
+target1 = [A*[template1 1]']';
+target1 = target1(1:2);
+target2 = [A*[template2 1]']';
+target2 = target2(1:2);
+target3 = [A*[template3 1]']';
+target3 = target3(1:2);
+target4 = [A*[template4 1]']';
+target4 = target4(1:2);
+
+x = [target1(1) target2(1) target3(1) target4(1) target1(1)];
+y = [target1(2) target2(2) target3(2) target4(2) target1(2)];
+
+figure;
+set(gcf, 'Position',  [100, 100, 3000, 300]);
+subplot(1,4,1), image(repmat(target,1,1,3)), hold on, plot(x, y, 'r'), title('Target Image');
+subplot(1,4,2), image(repmat(I_warped,1,1,3)), title('Warped Image');
+subplot(1,4,3), image(repmat(template,1,1,3)), title('Template Image');
+subplot(1,4,4), image(repmat(abs(template-I_warped),1,1,3)), title('Error Image');
+%%
+figure;
 %     imshow(template_cell{i});
     DrawBox(A_cell{i}, template_cell{i}, image_cell{i});
-end
