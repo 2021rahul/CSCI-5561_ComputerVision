@@ -1,41 +1,41 @@
 function [A_refined] = AlignImage(template, target, A)
-    p = permute(A, [2,1]);
-    p = p(1:6);
-    JacobianW = [0 0 1 0 0 0; 0 0 0 0 0 1];
-    [filter_x, filter_y] = GetDifferentialFilter()
-    im_x = FilterImage(template, filter_x)
-    im_y = FilterImage(template, filter_y)
-    steepest_images = GetSteepestImages(im_x, im_y, JacobianW);
-    A_refined=template;
-end 
-
-
-function [steepest_images] = GetSteepestImages(I_x, I_y, JacobianW)
-    steepest_images = zeros(size(I_x,1),size(I_x,2), 6);
-    for i=1:size(JacobianW,2)
-        steepest_images(:,:,i) = I_x.*JacobianW(1,i) + I_y.*JacobianW(2,i);
-    end    
-end
-
-
-function [im_filtered] = FilterImage(im, filter)
-    im = im2double(im);
-    padded_im = padarray(im, [1,1]);
-    im_size = size(padded_im);
-    im_filtered = zeros(im_size);
-    for i=2:im_size(1)-1
-        for j=2:im_size(2)-1
-            im_filtered(i, j) = convolution(padded_im(i-1:i+1, j-1:j+1), filter);
+    [template_x, template_y] = imgradientxy(template);
+    template_size=size(template);
+    H=zeros(6,6);
+    for i=1:template_size(1)
+        for j=1:template_size(2)
+           JacobianW=[[j i 1 0 0 0]; [0 0 0 j i 1]];
+           H=H+([template_x(i,j) template_y(i,j)]*JacobianW)'*([template_x(i,j) template_y(i,j)]*JacobianW);
         end
     end
-end
+    
+    epsilon=0.01;
+    error=[];
+    iter=1;
+    delp = ones(6,1);
+    while norm(delp) > epsilon
+        [I_warped, F] = GetWarpedImage(template, target, A, template_x, template_y);
+        delp=H\F;
+        del_A=[[delp(1)+1 delp(2) delp(3)]; [delp(4) delp(5)+1 delp(6)]; [0 0 1]];
+        A = A*del_A;
+        error=[error norm(double(template-I_warped),'fro')];
+        iter=iter+1
+    end
+    A_refined = A;
+end 
 
-function [output] = convolution(matA, matB)
-    matB = rot90(matB,2);
-    output = sum(sum(matA.*matB));
-end
-
-function [filter_x, filter_y] = GetDifferentialFilter()
-    filter_y = [1 1 1 ; 0 0 0 ; -1 -1 -1];
-    filter_x = [1 0 -1 ; 1 0 -1 ; 1 0 -1];
+function [I_warped, F] = GetWarpedImage(template, target, A, template_x, template_y)
+    template_size=size(template);
+    I_warped = zeros(template_size, class(template));
+    F=zeros(6,1);
+    for i=1:template_size(1)
+        for j=1:template_size(2)
+            x2=[j,i];
+            x1 = floor(A*[x2 1]');
+            I_warped(x2(2), x2(1)) = target(x1(2), x1(1));
+            JacobianW=[[x2(1) x2(2) 1 0 0 0]; [0 0 0 x2(1) x2(2) 1]];
+            I_error=abs(template(i,j)-I_warped(i,j));
+            F=F+(([template_x(i,j) template_y(i,j)]*JacobianW)'*double(I_error));
+        end
+    end
 end
