@@ -1,5 +1,6 @@
 function [A_cell, template_cell] = TrackMultiFrames(template, image_cell)
     
+    template = imresize(template, 0.1);
     [x1, x2] = FindMatch(template,image_cell{1});
     A = AlignImageUsingFeature(x1, x2, 3, 500);
     A_cell = {A};

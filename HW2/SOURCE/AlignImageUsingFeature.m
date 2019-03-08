@@ -1,6 +1,5 @@
 function [A] = AlignImageUsingFeature(x1, x2, ransac_thr, ransac_iter)
     inliers = RANSAC(x1, x2, ransac_thr, ransac_iter);
-    sum(inliers>0)
     [H, b] = GetAxbForm(x1(inliers,:), x2(inliers,:));
     [A] = LeastSquaresTransform(H, b);
 end
