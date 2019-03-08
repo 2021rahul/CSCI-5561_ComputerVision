@@ -17,9 +17,8 @@ function [A_refined] = AlignImage(template, target, A)
         [I_warped, F] = GetWarpedImage(template, target, A, template_x, template_y);
         delp=H\F;
         del_A=[[delp(1)+1 delp(2) delp(3)]; [delp(4) delp(5)+1 delp(6)]; [0 0 1]];
-        A = A*del_A;
+        A = A*inv(del_A);
         error=[error norm(double(template-I_warped),'fro')];
-        iter=iter+1
     end
     A_refined = A;
 end 
@@ -34,7 +33,7 @@ function [I_warped, F] = GetWarpedImage(template, target, A, template_x, templat
             x1 = floor(A*[x2 1]');
             I_warped(x2(2), x2(1)) = target(x1(2), x1(1));
             JacobianW=[[x2(1) x2(2) 1 0 0 0]; [0 0 0 x2(1) x2(2) 1]];
-            I_error=abs(template(i,j)-I_warped(i,j));
+            I_error=I_warped(i,j)-template(i,j);
             F=F+(([template_x(i,j) template_y(i,j)]*JacobianW)'*double(I_error));
         end
     end

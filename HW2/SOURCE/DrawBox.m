@@ -13,15 +13,11 @@ function [] = DrawBox(A, template, target)
     target3 = target3(1:2);
     target4 = [A*[template4 1]']';
     target4 = target4(1:2);
-
-    width = target2(1)-target1(1);
-    height = target4(2)-target1(2);
     
-    figure(2);
-%     subplot(1,1,1), imshow(target), hold on, rectangle('Position', [target1(1) target1(2) width height], 'EdgeColor', 'r');
+    x = [target1(1) target2(1) target3(1) target4(1) target1(1)];
+    y = [target1(2) target2(2) target3(2) target4(2) target1(2)];
+    
+    figure;
     subplot(1,1,1), imshow(target);
-    hold on, plot(fliplr(target1), fliplr(target2), 'color', 'red');
-    hold on, plot(fliplr(target2), fliplr(target3), 'color', 'blue');
-    hold on, plot(fliplr(target3), fliplr(target4), 'color', 'green');
-    hold on, plot(fliplr(target4), fliplr(target1), 'color', 'yellow');
+    hold on, plot(x, y, 'r');
 end
