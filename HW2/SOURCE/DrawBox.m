@@ -18,6 +18,8 @@ function [] = DrawBox(A, template, target)
     y = [target1(2) target2(2) target3(2) target4(2) target1(2)];
     
     figure;
+    hold on;
     subplot(1,1,1), imshow(target);
     hold on, plot(x, y, 'r');
+    hold off;
 end
