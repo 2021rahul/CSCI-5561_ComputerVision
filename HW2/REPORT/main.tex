@@ -1,0 +1,85 @@
+\documentclass[letter, 10pt]{article}
+\usepackage{fullpage}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{media9}
+\usepackage{animate}
+
+\pagenumbering{gobble}
+
+\begin{document}
+\noindent
+\large \textbf{Rahul Ghosh} \hfill \textbf{Assignment\#2}\\
+\normalsize Student ID: 5476965 \hfill CSci 5561\\
+
+\section*{IMAGE REGISTRATION}
+\subsection*{Methods}
+Given an object/template, the aim of this project is to track the object/template in the given target frames.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\linewidth]{HW2/RESULT/Frames.fig}
+    \figure{Input Images}
+    
+\begin{equation*}
+    filter\_x = \begin{bmatrix}
+    1 & 0 & -1\\
+    1 & 0 & -1\\
+    1 & 0 & -1\\
+    \end{bmatrix}
+    and\ filter\_y = \begin{bmatrix}
+    1 & 1 & 1\\
+    0 & 0 & 0\\
+    -1 & -1 & -1\\
+    \end{bmatrix}
+\end{equation*}
+The gradient magnitude and direction are then calculated from the filtered images along the x and y directions as shown in Figure 1. The image is divided into blocks and the gradients in each block are divided into 6 different bins according to their gradient angle. Following are the bins used in this assignment:
+\begin{equation*}
+    bin_1 = [\frac{11\pi}{12}, \pi)\cup[0, \frac{\pi}{12}),
+    bin_2 = [\frac{\pi}{12}, \frac{3\pi}{12}),
+    bin_3 = [\frac{3\pi}{12}, \frac{5\pi}{12}),
+    bin_4 = [\frac{5\pi}{12}, \frac{7\pi}{12}),
+    bin_5 = [\frac{7\pi}{12}, \frac{9\pi}{12}),
+    bin_6 = [\frac{9\pi}{12}, \frac{11\pi}{12})
+\end{equation*}
+Next, to take into account the illumination and contrast, the histograms of gradients of each block is normalized using its $2\times2$ neighbors and the corresponding histograms are concatenated resulting in a 24 ($6\times4$, one for each block) length hog descriptor for each block.
+
+To visualize, we take the sum of the magnitude for each bin and take the mid point of the bin as the angle as shown below:
+\begin{equation*}
+    \theta_1 = 0, \theta_2 = \frac{2\pi}{12}, \theta_3 = \frac{4\pi}{12}, \theta_4 = \frac{6\pi}{12}, \theta_5 = \frac{8\pi}{12}, \theta_6 = \frac{10\pi}{12}
+\end{equation*}
+
+The vector is plotted perpendicular to the given block centre using the $quiver$ method in MATLAB as shown in Figure 2. 
+\subsection*{RESULTS}
+\includemedia[
+  width=0.4\linewidth,
+  height=0.3\linewidth,
+  activate=pageopen,
+  addresource=HW2/RESULT/Frames.MP4,
+  flashvars={source=HW2/RESULT/Frames.MP4}
+]{}{VPlayer.swf}
+
+\begin{figure}[!h]
+    \minipage{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{HW1/RESULT/GRADIENT.png}
+        \subcaption{Gradients}
+    \endminipage\hfill
+    \minipage{0.25\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/GRADIENT_EYE.png}
+        \subcaption{Gradients\_EYE}
+    \endminipage\hfill
+    \minipage{0.25\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{HW1/RESULT/GRADIENT_TONGUE.png}
+        \subcaption{Gradients\_TONGUE}
+    \endminipage\hfill
+    \caption{Gradients of Image}
+\end{figure}
+
+\end{document}
