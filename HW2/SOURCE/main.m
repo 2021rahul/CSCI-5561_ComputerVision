@@ -31,7 +31,7 @@ showMatchedFeatures(template, image_cell{1}, x1, x2, 'montage','Parent',ax);
 %%
 A = AlignImageUsingFeature(x1, x2, 3, 1000);
 output_size=size(template);
-I_warped = WarpImage(image_cell{1}, A, output_size);
+I_warped = WarpImage(image_cell{1}, A, [600,600]);
 %%
 template1 = [1,1];
 template2 = [output_size(2),1];
