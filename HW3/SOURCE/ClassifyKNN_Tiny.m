@@ -24,7 +24,7 @@ function [confusion, accuracy] = ClassifyKNN_Tiny
         feature_test(i,:) = GetTinyImage(img, output_size);
     end
     
-    label_test_pred = PredictKNN(feature_train, label_train, feature_test, 5);
+    label_test_pred = PredictKNN(feature_train, label_train, feature_test, 10);
     confusion = confusionmat(label_test, label_test_pred);
     accuracy = (sum(label_test_pred==label_test)*100)/ size(label_test, 1);
 end
