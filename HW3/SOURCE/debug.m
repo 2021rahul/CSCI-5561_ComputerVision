@@ -1,3 +1,15 @@
+a = [1,2,3;4,5,6;7,8,9]
+
+feature=reshape(a,[],1);
+feature=feature-mean(feature);
+feature=feature/norm(feature)
+
+feature = double(reshape(a, 1, []));
+feature = feature - mean(feature);
+feature = feature/norm(feature)
+
+
+%%
 close all;clear all; clc;
 dirname = '../DATA/scene_classification_data';
 filename = fullfile(dirname, 'train.txt');
