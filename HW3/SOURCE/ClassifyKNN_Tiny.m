@@ -2,26 +2,23 @@ function [confusion, accuracy] = ClassifyKNN_Tiny
     dirname = '../DATA/scene_classification_data';
     filename = fullfile(dirname, 'train.txt');
     train = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
-    % train = train(randperm(size(train, 1), size(train, 1)), :);
 
     filename = fullfile(dirname, 'test.txt');
     test = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
-    % test = test(randperm(size(test, 1), size(test, 1)), :);
 
     output_size = [16, 16];
     feature_train = zeros(size(train, 1), output_size(1)*output_size(2));
     label_train = grp2idx(categorical(train{:,1}));
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
-        feature_train(i,:) = GetTinyImage(img, output_size);
+        feature_train(i,:) = GetTinyImage(img, output_size)';
     end
 
-    output_size = [16, 16];
     feature_test = zeros(size(test, 1), output_size(1)*output_size(2));
     label_test = grp2idx(categorical(test{:,1}));
     for i=1:size(test)
         img = imread(fullfile(dirname, strrep(test{i,2}{1},'\','/')));
-        feature_test(i,:) = GetTinyImage(img, output_size);
+        feature_test(i,:) = GetTinyImage(img, output_size)';
     end
     
     label_test_pred = PredictKNN(feature_train, label_train, feature_test, 10);
