@@ -21,11 +21,11 @@
 \subsection*{Methods}
 Given an object/template, the aim of this project is to track the object/template in the given target frames as shown in Figure 1.
 
-We begin by computing the sift features of both the template and target images using the $vl\_feat$ library and pruning those images using the ration test and bidirectional consistency. The matched features between the Template and Target1 are shown in Figure 2.
+We begin by computing the sift features of both the template and target images using the $vlfeat$ library and pruning those images using the ratio test($\frac{d_1}{d_2}=0.7$) and bi-directional consistency. The matched features between the Template and Target1 are shown in Figure 2.
 
-The images are now aligned using the features by calculating the transformation matrix A using RANSAC algorithm. The bounding box in Figure 3(a) shows the how the Template aligns with the Target Image. The target is then warped to the template image and the inital error image is shown in Figure 3(a). The transformation matrix is refined using the Inverse Compositional Image Alignment algorithm.
+The images are now aligned using the features by calculating the transformation matrix A using RANSAC algorithm with threshold=2 and 1000 iterations. The bounding box in Figure 3(a) shows the how the Template aligns with the Target Image. The target is then warped to the template image and the initial error image is shown in Figure 3(a). The transformation matrix is refined using the Inverse Compositional Image Alignment algorithm.
 
-For multi-frame tracking we start with the original template and track it in Target1. We initialize the transformation matrix A using feature based image alignment. For every target iteration we use a initial A and refine it using inverse compositional alignment. Now we update the template by warping the target image and also update the initial A using the refined A for tracking in the next frame. Figure 3 shows the updating template image and the tracked object.
+For multi-frame tracking we start with the original template and track it in Target1. We initialize the transformation matrix A using feature based image alignment. For every target iteration we use a initial A and refine it using inverse compositional alignment. Now we update the template by warping the target image and also update the initial A using the refined A for tracking in the next frame. Figure 3 shows the updating template image and the tracked object. 
 
 \subsection*{Results}
 \begin{figure}[h]
@@ -42,22 +42,22 @@ For multi-frame tracking we start with the original template and track it in Tar
 \end{figure}
 
 \begin{figure}[h]
-    \minipage{0.45\textwidth}
+    \minipage{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{HW2/RESULT/FRAME1.png}
         \subcaption{Frame 1}
     \endminipage\hfill
-    \minipage{0.45\textwidth}
+    \minipage{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{HW2/RESULT/FRAME2.png}
         \subcaption{Frame 2}
     \endminipage\hfill
-    \minipage{0.45\textwidth}
+    \minipage{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{HW2/RESULT/FRAME3.png}
         \subcaption{Frame 3}
     \endminipage\hfill
-    \minipage{0.45\textwidth}
+    \minipage{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{HW2/RESULT/FRAME4.png}
         \subcaption{Frame 4}
