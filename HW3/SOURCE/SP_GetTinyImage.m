@@ -1,4 +1,4 @@
-function [feature] = GetTinyImage(I, output_size) 
+function [feature] = sp_GetTinyImage(I, output_size) 
 
 feature=double(imresize(I,output_size));
 feature=reshape(feature,[],1);

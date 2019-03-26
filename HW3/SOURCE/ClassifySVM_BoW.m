@@ -1,4 +1,5 @@
 function [confusion, accuracy] = ClassifySVM_BoW
+    dic_size = 50;
     dirname = '../DATA/scene_classification_data';
     filename = fullfile(dirname, 'train.txt');
     train = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
@@ -6,20 +7,28 @@ function [confusion, accuracy] = ClassifySVM_BoW
     filename = fullfile(dirname, 'test.txt');
     test = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
 
-    output_size = [16, 16];
-    feature_train = zeros(size(train, 1), output_size(1)*output_size(2));
-    label_train = grp2idx(categorical(train{:,1}));
+    train_image_cell = {};
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
-        feature_train(i,:) = GetTinyImage(img, output_size);
+        train_image_cell{end+1} = img;
     end
 
-    output_size = [16, 16];
-    feature_test = zeros(size(test, 1), output_size(1)*output_size(2));
-    label_test = grp2idx(categorical(test{:,1}));
+    vocab = BuildVisualDictionary(train_image_cell, dic_size);
+    
+    feature_train = zeros(size(train, 1), dic_size);
+    label_train = grp2idx(train{:,1});
+    for i=1:size(train)
+        img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
+        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+        feature_train(i,:) = ComputeBoW(double(feature)', vocab);
+    end
+        
+    feature_test = zeros(size(test, 1), dic_size);
+    label_test = grp2idx(test{:,1});
     for i=1:size(test)
         img = imread(fullfile(dirname, strrep(test{i,2}{1},'\','/')));
-        feature_test(i,:) = GetTinyImage(img, output_size);
+        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+        feature_test(i,:) = ComputeBoW(double(feature)', vocab);
     end
     
     label_test_pred = PredictSVM(feature_train, label_train, feature_test);

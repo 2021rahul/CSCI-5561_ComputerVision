@@ -1,5 +1,5 @@
 function [confusion, accuracy] = ClassifyKNN_BoW
-    dic_size = 50;
+    dic_size = 60;
     dirname = '../DATA/scene_classification_data';
     filename = fullfile(dirname, 'train.txt');
     train = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
@@ -7,7 +7,6 @@ function [confusion, accuracy] = ClassifyKNN_BoW
     filename = fullfile(dirname, 'test.txt');
     test = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
 
-    output_size = [16, 16];
     train_image_cell = {};
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
@@ -23,7 +22,7 @@ function [confusion, accuracy] = ClassifyKNN_BoW
         [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
         feature_train(i,:) = ComputeBoW(double(feature)', vocab);
     end
-    
+        
     feature_test = zeros(size(test, 1), dic_size);
     label_test = grp2idx(test{:,1});
     for i=1:size(test)
@@ -32,7 +31,7 @@ function [confusion, accuracy] = ClassifyKNN_BoW
         feature_test(i,:) = ComputeBoW(double(feature)', vocab);
     end
     
-    label_test_pred = PredictKNN(feature_train, label_train, feature_test, 5);
+    label_test_pred = PredictKNN(feature_train, label_train, feature_test, 10);
     confusion = confusionmat(label_test, label_test_pred);
     accuracy = (sum(label_test_pred==label_test)*100)/ size(label_test, 1);
 end
