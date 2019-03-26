@@ -8,14 +8,15 @@ function [confusion, accuracy] = ClassifyKNN_Tiny
 
     output_size = [16, 16];
     feature_train = zeros(size(train, 1), output_size(1)*output_size(2));
-    label_train = grp2idx(categorical(train{:,1}));
+    label_train = grp2idx(train{:,1});
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
         feature_train(i,:) = GetTinyImage(img, output_size)';
     end
+    
 
     feature_test = zeros(size(test, 1), output_size(1)*output_size(2));
-    label_test = grp2idx(categorical(test{:,1}));
+    label_test = grp2idx(test{:,1});
     for i=1:size(test)
         img = imread(fullfile(dirname, strrep(test{i,2}{1},'\','/')));
         feature_test(i,:) = GetTinyImage(img, output_size)';

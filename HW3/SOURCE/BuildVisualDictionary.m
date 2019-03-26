@@ -1,13 +1,8 @@
 function [vocab] = BuildVisualDictionary(training_image_cell, dic_size)
-    sift_features = GetPoolSiftFeatures(training_image_cell);
-    [idx,vocab] = kmeans(double(sift_features), dic_size, 'MaxIter', 1000);
-end
-
-
-function [sift_features] = GetPoolSiftFeatures(image_cell)
     sift_features = [];
-    for i=1:max(size(image_cell))
-        [f, d] = vl_dsift(single(image_cell{i}), 'step', 20);
-        sift_features = [sift_features ; d'];
+    for i=1:max(size(training_image_cell))
+        [~, feature] = vl_dsift(single(training_image_cell{i}), 'Fast', 'step', 20, 'size', 10);
+        sift_features = [sift_features ; double(feature)'];
     end
+    [~,vocab] = kmeans(sift_features, dic_size, 'MaxIter', 1000);
 end

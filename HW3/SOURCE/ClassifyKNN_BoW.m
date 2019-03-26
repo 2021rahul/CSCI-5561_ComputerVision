@@ -11,25 +11,25 @@ function [confusion, accuracy] = ClassifyKNN_BoW
     train_image_cell = {};
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
-        train_image_cell{end+1} = img;;
+        train_image_cell{end+1} = img;
     end
 
     vocab = BuildVisualDictionary(train_image_cell, dic_size);
     
     feature_train = zeros(size(train, 1), dic_size);
-    label_train = grp2idx(categorical(train{:,1}));
+    label_train = grp2idx(train{:,1});
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
-        [d, feature] = vl_dsift(single(img), 'step', 40);
-        feature_train(i,:) = ComputeBoW(feature, vocab);
+        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+        feature_train(i,:) = ComputeBoW(double(feature)', vocab);
     end
     
     feature_test = zeros(size(test, 1), dic_size);
-    label_test = grp2idx(categorical(test{:,1}));
+    label_test = grp2idx(test{:,1});
     for i=1:size(test)
         img = imread(fullfile(dirname, strrep(test{i,2}{1},'\','/')));
-        [d, feature] = vl_dsift(single(img), 'step', 40);
-        feature_test(i,:) = ComputeBoW(feature, vocab);
+        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+        feature_test(i,:) = ComputeBoW(double(feature)', vocab);
     end
     
     label_test_pred = PredictKNN(feature_train, label_train, feature_test, 5);

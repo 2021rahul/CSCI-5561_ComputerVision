@@ -4,7 +4,7 @@ function [label_test_pred] = PredictSVM(feature_train, label_train, feature_test
     for i=1:num_classes
         new_labels = ones(size(label_train)).*(-1);
         new_labels(label_train==i)=1;
-        [w, b] = vl_svmtrain(feature_train', new_labels', 0.7);
+        [w, b] = vl_svmtrain(feature_train', new_labels', 0.00005, 'solver', 'sdca', 'loss', 'hinge2');
         model = containers.Map();
         model("w") = w;
         model("b") = b;
@@ -17,5 +17,5 @@ function [label_test_pred] = PredictSVM(feature_train, label_train, feature_test
         [~,~,~, scores] = vl_svmtrain(feature_test', new_labels', 0, 'model', model('w'), 'bias', model('b'), 'solver', 'none');
         score(:, i) = scores';
     end
-    [val, label_test_pred] = max(score, [], 2);
+    [~, label_test_pred] = max(score, [], 2);
 end
