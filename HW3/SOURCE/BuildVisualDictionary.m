@@ -4,5 +4,5 @@ function [vocab] = BuildVisualDictionary(training_image_cell, dic_size)
         [~, feature] = vl_dsift(single(training_image_cell{i}), 'Fast', 'step', 20, 'size', 10);
         sift_features = [sift_features ; double(feature)'];
     end
-    [~,vocab] = kmeans(sift_features, dic_size, 'MaxIter', 1000);
+    [~,vocab] = kmeans(sift_features, dic_size, 'MaxIter', 1000, 'Distance', 'correlation');
 end

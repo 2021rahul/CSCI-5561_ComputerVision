@@ -11,15 +11,14 @@ test = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
 train_image_cell = {};
 for i=1:size(train)
     img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
+%     img = imresize(img, [240 240]);
     train_image_cell{end+1} = img;
 end
-%%
-[~, feature] = vl_dsift(single(train_image_cell{i}), 'Fast', 'step', 20, 'size', 10);
 %%
 %BUILD VISUAL DICTIONARY
 sift_features = [];
 for i=1:max(size(train_image_cell))
-    [~, feature] = vl_dsift(single(train_image_cell{i}), 'Fast', 'step', 20, 'size', 10);
+    [~, feature] = vl_dsift(single(train_image_cell{i}), 'fast', 'step', 20, 'size', 10);
     sift_features = [sift_features ; double(feature)'];
 end
 %%
@@ -30,7 +29,8 @@ feature_train = zeros(size(train, 1), dic_size);
 label_train = grp2idx(train{:,1});
 for i=1:size(train)
     img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
-    [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+%     img = imresize(img, [240 240]);
+    [~, feature] = vl_dsift(single(img), 'fast', 'step', 20, 'size', 10);
     idx = knnsearch(vocab, double(feature)');
     [C,ia,ic] = unique(idx);
     value_counts = [C, accumarray(ic,1)];
@@ -43,7 +43,8 @@ feature_test = zeros(size(test, 1), dic_size);
 label_test = grp2idx(test{:,1});
 for i=1:size(test)
     img = imread(fullfile(dirname, strrep(test{i,2}{1},'\','/')));
-    [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+%     img = imresize(img, [240 240]);
+    [~, feature] = vl_dsift(single(img), 'fast', 'step', 20, 'size', 10);
     idx = knnsearch(vocab, double(feature)');
     [C,ia,ic] = unique(idx);
     value_counts = [C, accumarray(ic,1)];

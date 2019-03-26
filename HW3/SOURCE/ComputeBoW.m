@@ -1,5 +1,5 @@
 function [bow_feature] = ComputeBoW(feature, vocab)
-    idx = knnsearch(vocab, feature);
+    idx = knnsearch(vocab, feature, 'Distance', 'correlation');
     [C,~,ic] = unique(idx);
     value_counts = [C, accumarray(ic,1)];
     bow_feature = zeros(1,50);
