@@ -17,52 +17,30 @@
 \large \textbf{Rahul Ghosh} \hfill \textbf{Assignment\#2}\\
 \normalsize Student ID: 5476965 \hfill CSci 5561\\
 
-\section*{IMAGE REGISTRATION}
+\section*{SCENE RECOGNITION}
 \subsection*{Methods}
-Given an object/template, the aim of this project is to track the object/template in the given target frames as shown in Figure 1.
+\subsubsection*{TINY IMAGE KNN CLASSIFICATION}
+In this method each image is resized to a small fixed resolution to get a tiny image representation. This tiny image is transformed to a vector and normalized to get a zero mean and unit length vector. KNN classification is used on the vectorized data. The accuacy obtained is 23.8667 and the confusion matrix is shown in 
 
-We begin by computing the sift features of both the template and target images using the $vl\_feat$ library and pruning those images using the ration test and bidirectional consistency. The matched features between the Template and Target1 are shown in Figure 2.
-
-The images are now aligned using the features by calculating the transformation matrix A using RANSAC algorithm. The bounding box in Figure 3(a) shows the how the Template aligns with the Target Image. The target is then warped to the template image and the inital error image is shown in Figure 3(a). The transformation matrix is refined using the Inverse Compositional Image Alignment algorithm.
-
-For multi-frame tracking we start with the original template and track it in Target1. We initialize the transformation matrix A using feature based image alignment. For every target iteration we use a initial A and refine it using inverse compositional alignment. Now we update the template by warping the target image and also update the initial A using the refined A for tracking in the next frame. Figure 3 shows the updating template image and the tracked object.
 
 \subsection*{Results}
-\begin{figure}[h]
-    \minipage{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{HW2/RESULT/FRAMES.png}
-        \caption{Frames to track the object}
-    \endminipage\hfill
-    \minipage{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{HW2/RESULT/MATCHED_FEATURES.png}
-        \caption{Matched Features}
-    \endminipage\hfill
-\end{figure}
 
 \begin{figure}[h]
-    \minipage{0.45\textwidth}
+    \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{HW2/RESULT/FRAME1.png}
-        \subcaption{Frame 1}
+        \includegraphics[width=\textwidth]{HW3/RESULT/ClassifyKNN_Tiny_confusion.png}
+        \subcaption{Confusion matrix for Tiny-KNN}
     \endminipage\hfill
-    \minipage{0.45\textwidth}
+    \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{HW2/RESULT/FRAME2.png}
-        \subcaption{Frame 2}
+        \includegraphics[width=\textwidth]{HW3/RESULT/ClassifyKNN_Tiny_confusion.png}
+        \subcaption{Confusion matrix for BoW+KNN}
     \endminipage\hfill
-    \minipage{0.45\textwidth}
+    \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{HW2/RESULT/FRAME3.png}
-        \subcaption{Frame 3}
+        \includegraphics[width=\textwidth]{HW3/RESULT/ClassifyKNN_Tiny_confusion.png}
+        \subcaption{Confusion matrix for BoW+SVM}
     \endminipage\hfill
-    \minipage{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{HW2/RESULT/FRAME4.png}
-        \subcaption{Frame 4}
-    \endminipage\hfill
-    \caption{Multiframe Track}
 \end{figure}
 
 \end{document}
