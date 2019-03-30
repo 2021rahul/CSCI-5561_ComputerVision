@@ -1,5 +1,5 @@
 function [confusion, accuracy] = ClassifySVM_BoW
-    dic_size = 50;
+    dic_size = 200;
     dirname = '../DATA/scene_classification_data';
     filename = fullfile(dirname, 'train.txt');
     train = readtable(filename,'Delimiter',' ', 'ReadVariableNames', false);
@@ -19,7 +19,7 @@ function [confusion, accuracy] = ClassifySVM_BoW
     label_train = grp2idx(train{:,1});
     for i=1:size(train)
         img = imread(fullfile(dirname, strrep(train{i,2}{1},'\','/')));
-        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 5);
         feature_train(i,:) = ComputeBoW(double(feature)', vocab);
     end
         
@@ -27,7 +27,7 @@ function [confusion, accuracy] = ClassifySVM_BoW
     label_test = grp2idx(test{:,1});
     for i=1:size(test)
         img = imread(fullfile(dirname, strrep(test{i,2}{1},'\','/')));
-        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 20, 'size', 10);
+        [~, feature] = vl_dsift(single(img), 'Fast', 'step', 5);
         feature_test(i,:) = ComputeBoW(double(feature)', vocab);
     end
     

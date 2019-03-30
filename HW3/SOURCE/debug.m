@@ -16,7 +16,7 @@ end
 %BUILD VISUAL DICTIONARY
 sift_features = [];
 for i=1:max(size(train_image_cell))
-    [~, feature] = vl_dsift(single(train_image_cell{i}), 'fast', 'step', 20);
+    [~, feature] = vl_dsift(single(train_image_cell{i}), 'fast', 'step', );
     sift_features = [sift_features ; double(feature)'];
 end
 %%
