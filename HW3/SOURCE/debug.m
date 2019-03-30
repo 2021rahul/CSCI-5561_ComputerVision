@@ -93,4 +93,4 @@ imshow(img);
 imwrite(img, '../RESULT/original.png');
 figure();
 imshow(feature);
-imwrite(img, '../RESULT/tiny.png');
+imwrite(feature, '../RESULT/tiny.png');
