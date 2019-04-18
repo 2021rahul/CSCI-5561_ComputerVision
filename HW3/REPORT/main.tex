@@ -25,14 +25,14 @@ In this method each image is resized to a small fixed resolution to get a tiny i
 Finally KNN classification is used on the vectorized data. For \textbf{k = 10} the accuracy obtained is \textbf{23.8667} and the confusion matrix is shown in figure 2(a).
 
 \subsubsection*{Bag of Word(BoW) Visual Vocabulary KNN Classification}
-A Bow visual vocabulary needs to be created from the training images. For this we divide each image into 20$\times$20 cells and the residual part is ignored. Sift features are calculated for each image in those cells.  For example, if the image size is 220$\times$293, after dividing the image into 20$\times$20 and calculating the SIFT features on those, we get 140 sift features. These SIFT features are concatenated to build a pool of SIFT features from all the training images. Now we use a clustering algorithm to find the representative BoW vocabulary.
+A BoW visual vocabulary needs to be created from the training images. For this we divide each image into step$\times$step cells and the residual part is ignored. Sift features are calculated for each image in those cells. These SIFT features are concatenated to build a pool of SIFT features from all the training images. Now we use a clustering algorithm to find the representative BoW vocabulary which is equivalent to dic\_size.
 
-In the next step, we compute need to comoute the feature vector for each training image according to the  BoW Visual Vocabulary computed in the previous step. For this we calculate the SIFT features for each image in the same manner as in the previous step. Now given a set of SIFT features obtained from an image, the BoW features are obtained by
+In the next step, we need to compute the feature vector for each training image according to the  BoW Visual Vocabulary computed in the previous step. For this we calculate the SIFT features for each image in the same manner as in the previous step. Now given a set of SIFT features obtained from an image, the BoW features are obtained by
 counting the number of SIFT features in each cluster center using nearest neighbor search.
 
-Finally KNN classification is used on the normalized histograms. For \textbf{dic\_size = 200}, \textbf{step = 5} and \textbf{k = 10}, the accuracy obtained is \textbf{52.3667} and the confusion matrix is shown in figure 2(b).
+Finally KNN classification is used on the normalized histograms. For \textbf{dic\_size = 200}, \textbf{step = 5} and \textbf{k = 10}, the accuracy obtained is \textbf{51.3667} and the confusion matrix is shown in figure 2(b).
 
-Finally SVM classification is used on the normalized histograms. For \textbf{dic\_size = 200}, \textbf{step = 5} and \textbf{lambda = 0.00005}, the accuracy obtained is \textbf{65.8667} and the confusion matrix is shown in figure 2(c).
+Finally SVM classification is used on the normalized histograms. For \textbf{dic\_size = 200}, \textbf{step = 5} and \textbf{lambda = 0.00005}, the accuracy obtained is \textbf{62.8667} and the confusion matrix is shown in figure 2(c).
 
 \subsection*{Results}
 \begin{figure}[H]
