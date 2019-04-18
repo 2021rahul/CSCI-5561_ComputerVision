@@ -1,11 +1,11 @@
 function [w, b] = TrainSLP(mini_batch_x, mini_batch_y)    
-    num_batches = size(mini_batch_y, 1);
+    num_batches = size(mini_batch_y,2);
     input_length = size(mini_batch_x{1}(:,1),1);
     num_classes = size(mini_batch_y{1}(:,1),1);
 
     rng('default')
-    learning_rate = 0.01;
-    decay_rate = 0.5;
+    learning_rate = 1;
+    decay_rate = 0.9;
     w = normrnd(0,1,[num_classes,input_length]);
     b = normrnd(0,1,[num_classes,1]);
     k=1;
@@ -37,5 +37,4 @@ function [w, b] = TrainSLP(mini_batch_x, mini_batch_y)
     figure(2);
     plot(L);
     ylim([-0.1 20]);
-    L(1)
 end

@@ -1,7 +1,7 @@
 function main_slp_linear
 
-load('../DATA/ReducedMNIST/mnist_train.mat');
-load('../DATA/ReducedMNIST/mnist_test.mat');
+load('mnist_train.mat');
+load('mnist_test.mat');
 
 % Data preprocessing
 batch_size = 30;

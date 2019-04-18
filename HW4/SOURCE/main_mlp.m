@@ -17,7 +17,7 @@ im_test = im_test/255;
 acc = 0;
 confusion = zeros(10,10);
 for iTest = 1 : size(im_test,2)
-    x = [im_test(:,iTest);1];
+    x = im_test(:,iTest);
     
     pred1 = FC(x, w1, b1);
     pred2 = ReLu(pred1);
@@ -27,7 +27,7 @@ for iTest = 1 : size(im_test,2)
     [~,l] = max(y);
     confusion(label_test(iTest)+1, l) = confusion(label_test(iTest)+1, l) + 1;
     
-    if l == label_test(iData)+1
+    if l == label_test(iTest)+1
         acc = acc + 1;
     end    
 end
