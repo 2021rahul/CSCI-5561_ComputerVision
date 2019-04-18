@@ -1,4 +1,4 @@
-function [w, b] = TrainSLP_linear(mini_batch_x, mini_batch_y)
+function [w, b] = TrainSLP(mini_batch_x, mini_batch_y)    
     num_batches = size(mini_batch_y, 1);
     input_length = size(mini_batch_x{1}(:,1),1);
     num_classes = size(mini_batch_y{1}(:,1),1);
@@ -20,7 +20,7 @@ function [w, b] = TrainSLP_linear(mini_batch_x, mini_batch_y)
         num_images = size(mini_batch_x{k}, 2);
         for image=1:num_images
             y=FC(mini_batch_x{k}(:,image),w,b);
-            [Loss,dLdy] = Loss_euclidean(y, mini_batch_y{k}(:, image));
+            [Loss,dLdy] = Loss_cross_entropy_softmax(y, mini_batch_y{k}(:, image));
             L(iter) = L(iter) + Loss;
             [~,dldw,dldb] = FC_backward(dLdy,mini_batch_x{k}(:,image),w,b,mini_batch_y{k}(:, image));
             dLdw = dLdw + dldw;
