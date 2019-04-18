@@ -4,8 +4,8 @@ function [w, b] = TrainSLP_linear(mini_batch_x, mini_batch_y)
     num_classes = size(mini_batch_y{1}(:,1),1);
 
     rng('default')
-    learning_rate = 0.005;
-    decay_rate = 0.9;
+    learning_rate = 0.01;
+    decay_rate = 1;
     w = normrnd(0,1,[num_classes,input_length]);
     b = normrnd(0,1,[num_classes,1]);
     k=1;
@@ -34,7 +34,5 @@ function [w, b] = TrainSLP_linear(mini_batch_x, mini_batch_y)
         b = b-(learning_rate*dLdb')/num_images;
         L(iter) = L(iter)/num_images;
     end
-    figure(2);
-    plot(L);
-    ylim([-0.1 200]);
+    PlotLoss(L,"SLP_linear");
 end
