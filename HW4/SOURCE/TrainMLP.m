@@ -4,8 +4,8 @@ function [w1, b1, w2, b2] = TrainMLP(mini_batch_x, mini_batch_y)
     num_classes = size(mini_batch_y{1}(:,1),1);
 
     rng('default')
-    learning_rate = 0.5;
-    decay_rate = 1;
+    learning_rate = 0.6;
+    decay_rate = 0.99;
     w1 = normrnd(0,1,[30,input_length]);
     b1 = normrnd(0,1,[30,1]);
     w2 = normrnd(0,1,[num_classes,30]);
@@ -46,7 +46,5 @@ function [w1, b1, w2, b2] = TrainMLP(mini_batch_x, mini_batch_y)
         b2 = b2-(learning_rate*dLdb2')/num_images;
         L(iter) = L(iter)/num_images;
     end
-    figure(2);
-    plot(L);
-    ylim([-0.1 20]);
+    PlotLoss(L,"MLP");
 end

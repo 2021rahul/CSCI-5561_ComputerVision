@@ -35,7 +35,7 @@ end
 
 categories = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-fig_handle = figure(1);
+fig_handle = figure();
 clf;
 imagesc(confusion, [0, 1]);
 set(fig_handle, 'Color', [.988, .988, .988])
@@ -45,3 +45,4 @@ set(axis_handle, 'XTickLabel', categories)
 set(axis_handle, 'YTick', 1:10)
 set(axis_handle, 'YTickLabel', categories)
 xlabel(sprintf('Accuracy: %f', accuracy));
+saveas(fig_handle,'../RESULT/SLP_CONFUSION.png')
