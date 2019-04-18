@@ -1,4 +1,4 @@
-\documentclass[letter, 11pt]{article}
+\documentclass[letter, 10pt]{article}
 \usepackage{fullpage}
 \usepackage[margin=0.5in]{geometry}
 \usepackage{graphicx}
@@ -17,18 +17,24 @@
 \large \textbf{Rahul Ghosh} \hfill \textbf{Assignment\#4}\\
 \normalsize Student ID: 5476965 \hfill CSci 5561\\
 
-
 \section*{\centering CONVOLUTIONAL NEURAL NETWORK}
 
 \subsection*{Methods}
 \subsubsection*{Single-layer Linear Perceptron}
-In this method each image is resized to a small fixed resolution to get a tiny image representation. The original image and the tiny image is compared in figure 1. This tiny image is transformed to a vector and normalized to get a zero mean and unit length vector. 
-
-Finally KNN classification is used on the vectorized data. For \textbf{k = 10} the accuracy obtained is \textbf{23.8667} and the confusion matrix is shown in figure 2(a).
+A single-layer linear perceptron is used as a model to classify the images. Euclidean distance between the prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
+\underline{Optimizer Parameters}: learning\_rate = 0.01\quad decay\_rate = 1\\
 
 \subsubsection*{Single-layer Perceptron}
+A single-layer perceptron is used as a model to classify the images. Cross entropy loss between prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
+\underline{Optimizer Parameters}: learning\_rate = 0.6\quad decay\_rate = 0.9\\
+
 \subsubsection*{Multi-layer Perceptron}
+A multi-layer perceptron with 1 hidden layer of 30 units is used as a model to classify the images. Cross entropy loss between prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
+\underline{Optimizer Parameters}: learning\_rate = 0.6\quad decay\_rate = 0.99\\
+
 \subsubsection*{Convolutional Neural Network}
+A multi-layer perceptron with 1 hidden layer of 30 units is used as a model to classify the images. Cross entropy loss between prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
+\underline{Optimizer Parameters}: learning\_rate = 0.6\quad decay\_rate = 0.99\\
 
 \subsection*{Results}
 \begin{figure}[H]
@@ -53,17 +59,17 @@ Finally KNN classification is used on the vectorized data. For \textbf{k = 10} t
 \begin{figure}[H]
     \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{HW4/RESULT/SLP_linear.png}
+        \includegraphics[width=\textwidth]{HW4/RESULT/SLP.png}
         \subcaption{Single-layer Linear Perceptron}
     \endminipage\hfill
     \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth]{HW4/RESULT/SLP_linear_loss.png}
+        \includegraphics[width=1.1\textwidth]{HW4/RESULT/SLP_loss.png}
         \subcaption{Training Loss}
     \endminipage\hfill
     \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth]{HW4/RESULT/SLPLINEAR_CONFUSION.png}
+        \includegraphics[width=1.1\textwidth]{HW4/RESULT/SLP_CONFUSION.png}
         \subcaption{Tiny Image}
     \endminipage\hfill
     \caption{Single-layer Perceptron}
@@ -72,17 +78,17 @@ Finally KNN classification is used on the vectorized data. For \textbf{k = 10} t
 \begin{figure}[H]
     \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{HW4/RESULT/SLP_linear.png}
+        \includegraphics[width=\textwidth]{HW4/RESULT/MLP.png}
         \subcaption{Single-layer Linear Perceptron}
     \endminipage\hfill
     \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth]{HW4/RESULT/SLP_linear_loss.png}
+        \includegraphics[width=1.1\textwidth]{HW4/RESULT/MLP_loss.png}
         \subcaption{Training Loss}
     \endminipage\hfill
     \minipage{0.33\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth]{HW4/RESULT/SLPLINEAR_CONFUSION.png}
+        \includegraphics[width=1.1\textwidth]{HW4/RESULT/MLP_CONFUSION.png}
         \subcaption{Tiny Image}
     \endminipage\hfill
     \caption{Multi-layer Perceptron}
