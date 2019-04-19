@@ -7,7 +7,7 @@ function [y] = Conv(x, w_conv, b_conv)
         y_filter = zeros(H,W,C1);
         for c=1:C1
             col_x = im2col(padded_x(:,:,c),[f,f],'sliding');
-            w = w_conv(:,:,c,1);
+            w = w_conv(:,:,c,filter);
             y_filter(:,:,c) = reshape(w(:)'*col_x,[H,W]);
         end
         bias = b_conv(filter)*ones([H,W]);

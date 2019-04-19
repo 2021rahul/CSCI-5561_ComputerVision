@@ -19,17 +19,17 @@ acc = 0;
 confusion = zeros(10,10);
 for iTest = 1 : size(im_test,2)
     x = reshape(im_test(:,iTest), [14, 14, 1]);
-    pred1 = Conv(x, w_conv, b_conv, 1); 
+    pred1 = Conv(x, w_conv, b_conv); 
     pred2 = ReLu(pred1);
-    pred3 = MaxPool2x2(pred2);
-    pred4 = Flat(pred3);
+    pred3 = Pool2x2(pred2);
+    pred4 = Flattening(pred3);
     pred5 = FC(pred4, w_fc, b_fc);
     y = SoftMax(pred5);
     
     [~,l] = max(y);
     confusion(label_test(iTest)+1, l) = confusion(label_test(iTest)+1, l) + 1;
     
-    if l == label_test(iData)+1
+    if l == label_test(iTest)+1
         acc = acc + 1;
     end    
 end
@@ -40,7 +40,7 @@ end
 
 categories = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-fig_handle = figure(1);
+fig_handle = figure();
 clf;
 imagesc(confusion, [0, 1]);
 set(fig_handle, 'Color', [.988, .988, .988])
@@ -50,3 +50,4 @@ set(axis_handle, 'XTickLabel', categories)
 set(axis_handle, 'YTick', 1:10)
 set(axis_handle, 'YTickLabel', categories)
 xlabel(sprintf('Accuracy: %f', accuracy));
+saveas(fig_handle,'../RESULT/CNN_CONFUSION.png')

@@ -1,11 +1,10 @@
 clear all
 close all
 clc
-
+%%
 load('mnist_train.mat');
 load('mnist_test.mat');
 %%
-% Data preprocessing
 batch_size = 30;
 im_train = im_train/255;
 im_test = im_test/255;
@@ -14,58 +13,31 @@ im_test = im_test/255;
 num_batches = size(mini_batch_y,2);
 input_length = size(mini_batch_x{1}(:,1),1);
 num_classes = size(mini_batch_y{1}(:,1),1);
-%%
+
 rng('default')
-learning_rate = 0.1;
-decay_rate = 0.9;
-w = normrnd(0,1,[num_classes,input_length]);
-b = normrnd(0,1,[num_classes,1]);
+learning_rate = 0.6;
+decay_rate = 0.99;
+w_conv = normrnd(0,1,[3,3,1,3]);
+b_conv = normrnd(0,1,[3,1]);
+w_fc = normrnd(0,1,[10,147]);
+b_fc = normrnd(0,1,[10,1]);
 k=1;
 nIter = 10000;
 L = zeros(nIter,1);
-w_old = w;
-b_old = b;
 %%
-for iter=1:nIter
-    if ~rem(iter, 1000)
-        learning_rate = decay_rate*learning_rate;
-    end
-    dLdw = 0;
-    dLdb = 0;
-    num_images = size(mini_batch_x{k}, 2);
-    for image=1:num_images
-        y=FC(mini_batch_x{k}(:,image),w,b);
-        [Loss,dLdy] = Loss_cross_entropy_softmax(y, mini_batch_y{k}(:, image));
-        L(iter) = L(iter) + Loss;
-        [~,dldw,dldb] = FC_backward(dLdy,mini_batch_x{k}(:,image),w,b,mini_batch_y{k}(:, image));
-        dLdw = dLdw + dldw;
-        dLdb = dLdb + dldb;
-    end
-    k=k+1;
-    if k > num_batches
-        k = 1;
-    end
-    w = w-(learning_rate*dLdw')/num_images;
-    b = b-(learning_rate*dLdb')/num_images;
-    L(iter) = L(iter)/num_images;
-    L(iter)
-end
-%%
-figure(2);
-plot(L);
-ylim([-0.1 20]);
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 image=1;
-x = mini_batch_x{k}(:,image);
-y = mini_batch_y{k}(:, image);
-y_tilde = SoftMax(FC(x,w,b));
-L = -sum(y.*log(y_tilde));
-dLdy = y_tilde-y;
+x = reshape(mini_batch_x{k}(:,image), [14, 14, 1]);
+a1=Conv(x,w_conv,b_conv);
+f1 = ReLu(a1);
+f2 = Pool2x2(f1);
+f3 = Flattening(f2);
+a2 = FC(f3,w_fc,b_fc);
 %%
-dLdy_tilde = -(1./y_tilde)';
-dy_tildedx = diag(y_tilde)-(y_tilde*y_tilde');
-dLdy = dLdy_tilde*dy_tildedx;
+[Loss,dlda2] = Loss_cross_entropy_softmax(a2, mini_batch_y{k}(:, image));
+[dldf3,dldw_fc,dldb_fc] = FC_backward(dlda2,f3,w_fc,b_fc,a2);
+dldf2 = Flattening_backward(dldf3,f2,f3);
+dldf1 = Pool2x2_backward(dldf2,f1,f2);
+dlda1 = ReLu_backward(dldf1,a1,f1);
 %%
-[Loss,dLdy] = Loss_cross_entropy_softmax(y_tilde,y);
-[~,dldw,dldb] = FC_backward(dLdy,mini_batch_x{k}(:,image),w,b,mini_batch_y{k}(:, image));
+[dldw_conv, dldb_conv] = Conv_backward(dlda1,x,w_conv,b_conv,a1);
+%%
