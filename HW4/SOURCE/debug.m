@@ -2,8 +2,8 @@ clear all
 close all
 clc
 %%
-load('mnist_train.mat');
-load('mnist_test.mat');
+load('../DATA/ReducedMNIST/mnist_train.mat');
+load('../DATA/ReducedMNIST/mnist_test.mat');
 %%
 batch_size = 30;
 im_train = im_train/255;
@@ -27,6 +27,8 @@ L = zeros(nIter,1);
 %%
 image=1;
 x = reshape(mini_batch_x{k}(:,image), [14, 14, 1]);
+
+%%
 a1=Conv(x,w_conv,b_conv);
 f1 = ReLu(a1);
 f2 = Pool2x2(f1);
