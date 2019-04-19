@@ -4,7 +4,7 @@ function [w_conv, b_conv, w_fc, b_fc] = TrainCNN(mini_batch_x, mini_batch_y)
     num_classes = size(mini_batch_y{1}(:,1),1);
 
     rng('default')
-    learning_rate = 0.2;
+    learning_rate = 0.1;
     decay_rate = 0.9;
     w_conv = normrnd(0,1,[3,3,1,3]);
     b_conv = normrnd(0,1,[3,1]);

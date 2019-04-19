@@ -11,6 +11,7 @@ im_test = im_test/255;
 
 % input->fc(10)->softmax->cross_entropy
 [w, b] = TrainSLP(mini_batch_x, mini_batch_y);
+save('../RESULT/slp.mat','w','b');
 
 % Test
 acc = 0;

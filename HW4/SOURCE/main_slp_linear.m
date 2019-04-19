@@ -11,6 +11,7 @@ im_test = im_test/255;
 
 % input->fc(10)->euclidean
 [w, b] = TrainSLP_linear(mini_batch_x, mini_batch_y);
+save('../RESULT/slp_linear.mat','w','b');
 
 % Test
 acc = 0;

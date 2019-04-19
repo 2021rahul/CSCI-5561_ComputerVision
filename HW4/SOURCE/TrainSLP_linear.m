@@ -4,7 +4,7 @@ function [w, b] = TrainSLP_linear(mini_batch_x, mini_batch_y)
     num_classes = size(mini_batch_y{1}(:,1),1);
 
     rng('default')
-    learning_rate = 0.01;
+    learning_rate = 0.02;
     decay_rate = 1;
     w = normrnd(0,1,[num_classes,input_length]);
     b = normrnd(0,1,[num_classes,1]);

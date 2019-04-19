@@ -12,6 +12,7 @@ im_test = im_test/255;
 % input->fc(30)->ReLu->fc(10)->softmax->cross_entropy
 % fc(30): 30 hidden units
 [w1, b1, w2, b2] = TrainMLP(mini_batch_x, mini_batch_y);
+save('../RESULT/mlp.mat','w1','b1','w2','b2');
 
 % Test
 acc = 0;

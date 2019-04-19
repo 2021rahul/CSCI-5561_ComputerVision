@@ -8,12 +8,12 @@ batch_size = 30;
 im_train = im_train/255;
 im_test = im_test/255;
 [mini_batch_x, mini_batch_y] = GetMiniBatch(im_train, label_train, batch_size);
-
+%%
 % input->conv->relu->pool->flat->fc(10)->softmax->cross_entropy
 % conv filter: 3x3x1x3
 [w_conv, b_conv, w_fc, b_fc] = TrainCNN(mini_batch_x, mini_batch_y);
-
-
+% save('../RESULT/cnn1.mat','w_conv','b_conv','w_fc','b_fc');
+%%
 % Test
 acc = 0;
 confusion = zeros(10,10);
