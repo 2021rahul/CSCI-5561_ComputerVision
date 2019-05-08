@@ -20,7 +20,7 @@ K = [700/2 0 960/2;
 % X1 = Triangulation(P1, P2, x1, x2);
 
 % Disambiguate camera pose
-[R,C,X] = PoseDisambiguation(R1,C1,X1,R2,C2,X2,R3,C3,X3,R4,C4,X4);
+[R,C,X] = DisambiguatePose(R1,C1,X1,R2,C2,X2,R3,C3,X3,R4,C4,X4);
 
 % Stereo rectification
 [H1, H2] = ComputeRectification(K, R, C);

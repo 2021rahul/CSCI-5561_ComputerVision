@@ -1,5 +1,5 @@
 function [X] = Triangulation(P1, P2, x1, x2)
-    X = zeros(size(x1,1), 3)
+    X = zeros(size(x1,1), 3);
     for i =1:size(x1,1)
         A = [SkewSymmetric([x1(i,:) 1])*P1 ; SkewSymmetric([x2(i,:) 1])*P2];
         x = null(A);
