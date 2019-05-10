@@ -14,33 +14,25 @@
 
 \begin{document}
 \noindent
-\large \textbf{Rahul Ghosh} \hfill \textbf{Assignment\#4}\\
+\large \textbf{Rahul Ghosh} \hfill \textbf{Assignment\#5}\\
 \normalsize Student ID: 5476965 \hfill CSci 5561\\
 
-\section*{\centering CONVOLUTIONAL NEURAL NETWORK}
+\section*{\centering STEREO RECONSTRUCTION}
 
-\subsection*{Methods}
-\subsubsection*{Single-layer Linear Perceptron}
-A single-layer linear perceptron is used as a model to classify the images. Euclidean distance between the prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
-\underline{Optimizer Parameters}: learning\_rate = 0.01\quad decay\_rate = 1\\
-The results are shown in Figure 1.
+\subsection*{METHOD}
+\subsubsection*{SIFT FEATURE MATCHING}
+For the left and right image the sift features are extracted and matched using the ration test and bidirectional consistency, to get a set of corresponding points. The matched points are shown in Figure 1.
 
-\subsubsection*{Single-layer Perceptron}
-A single-layer perceptron is used as a model to classify the images. Cross entropy loss between prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
-\underline{Optimizer Parameters}: learning\_rate = 0.6\quad decay\_rate = 0.9\\
-The results are shown in Figure 2.
+\subsubsection*{COMPUTING F}
+Using the set of correspondences the F is computed by solving the following linear equation, where u and v are the features from the first and second image respectively. RANSAC is used to determine the F matrix, after which SVD cleanup is done to make it rank 2. 
 
-\subsubsection*{Multi-layer Perceptron}
-A multi-layer perceptron with 1 hidden layer of 30 units is used as a model to classify the images. Cross entropy loss between prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
-\underline{Optimizer Parameters}: learning\_rate = 0.6\quad decay\_rate = 0.99\\
-The results are shown in Figure 3.
+\subsubsection*{RECTIFICATION HOMOGRAPHIES}
+The rectification homographies for the left and right image are calculated such that the epipoles are at infinity. The warped left and right image are shown in Figure 2.
 
-\subsubsection*{Convolutional Neural Network}
-A convolutional neural network with 1 convolutional layer followed by ReLU and max-pooling is used. Cross entropy loss between prediction and true label is used as the objective function and Stochastic gradient descent is used as an optimizer to train the model.\\
-\underline{Optimizer Parameters}: learning\_rate = 0.7\quad decay\_rate = 0.9\\
-The results are shown in Figure 4.
+\subsubsection*{DISPARITY CALCULATION}
+Using the warped left and right image the disparity is calculated after resizing the images to 0.2$\times$size.
 
-\subsection*{Results}
+\subsection*{RESULTS}
 \begin{figure}[H]
     \minipage{0.33\textwidth}
         \centering
