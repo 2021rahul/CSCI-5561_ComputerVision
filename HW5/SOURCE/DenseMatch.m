@@ -29,9 +29,14 @@ function [disp] = DenseMatch(im1, im2)
             t1 = double(reshape(d1(i,j,:),[num_features,1]));
             t2 = double(reshape(d2(i,1:j,:),[j,num_features]))';
             t1_rep=repmat(t1,[1 j]);
-            pixel_descriptor=vecnorm(t1_rep-t2);
+            pixel_descriptor=vecnorm(flip(t1_rep-t2));
             [~,index]=min(pixel_descriptor);
             disp(i,j)=abs(index-j);
         end
     end
+    low = prctile(disp,10,'all');
+    high = prctile(disp,98,'all');
+    disp(disp<low) = low;
+    disp(disp>high) = high;
+    disp(im1_new==0)=0;
 end
