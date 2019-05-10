@@ -5,6 +5,12 @@ close all;clear all; clc;
 run('~/Documents/MATLAB/vlfeat-0.9.21/toolbox/vl_setup')
 im1 = imread('../DATA/left.bmp');
 im2 = imread('../DATA/right.bmp');
+figure(1);
+imshow(im1);
+saveas(gcf,"../RESULT/im1.png")
+figure(2);
+imshow(im2);
+saveas(gcf,"../RESULT/im2.png")
 %%
 K = [350 0 960/2;
      0 350 540/2;
@@ -12,7 +18,8 @@ K = [350 0 960/2;
 [x1, x2] = FindMatch(im1, im2);
 save("../RESULT/x1.mat",'x1');
 save("../RESULT/x2.mat",'x2');
-figure;ax=axes;
+figure(3);
+ax=axes;
 showMatchedFeatures(im1, im2, x1, x2, 'montage','Parent',ax);
 saveas(gcf,"../RESULT/matched_points.png")
 %%
@@ -48,19 +55,20 @@ im1_w = WarpImage(im1, H1);
 im2_w = WarpImage(im2, H2);
 save("../RESULT/im1_w.mat",'im1_w')
 save("../RESULT/im2_w.mat",'im2_w')
-figure(2);
+figure(4);
 imshow(im1_w);
 saveas(gcf,"../RESULT/im1_w.png")
-figure(3);
+figure(5);
 imshow(im2_w);
 saveas(gcf,"../RESULT/im2_w.png")
 %%
-im1_w = imresize(im1_w, 0.3);
-im2_w = imresize(im2_w, 0.3);
+im1_w = imresize(im1_w, 0.5);
+im2_w = imresize(im2_w, 0.5);
 [disp] = DenseMatch(im1_w, im2_w);
+% [disp] = disparityBM(rgb2gray(im1_w),rgb2gray(im2_w));
 save("../RESULT/disp.mat",'disp')
 %%
-figure(4)
+figure(6)
 imagesc(disp);
 axis equal
 axis off
