@@ -35,6 +35,20 @@ Using the warped left and right image the disparity is calculated after resizing
 \subsection*{RESULTS}
 
 \begin{figure}[H]
+    \minipage{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{HW5/RESULT/im1_w.png}
+        \subcaption{Left Image}
+    \endminipage\hfill
+    \minipage{0.48\textwidth}
+        \centering
+        \includegraphics[width=1.1\textwidth]{HW5/RESULT/im2_w.png}
+        \subcaption{Right Image}
+    \endminipage\hfill
+    \caption{Multi-layer Perceptron}
+\end{figure}
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HW5/RESULT/matched_points.png}
     \caption{MATCHED POINTS}
@@ -42,20 +56,15 @@ Using the warped left and right image the disparity is calculated after resizing
 \end{figure}
 
 \begin{figure}[H]
-    \minipage{0.33\textwidth}
+    \minipage{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{HW4/RESULT/MLP.png}
-        \subcaption{Single-layer Linear Perceptron}
+        \includegraphics[width=\textwidth]{HW5/RESULT/im1_w.png}
+        \subcaption{Left Rectified Image}
     \endminipage\hfill
-    \minipage{0.33\textwidth}
+    \minipage{0.48\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth]{HW4/RESULT/MLP_loss.png}
-        \subcaption{Training Loss}
-    \endminipage\hfill
-    \minipage{0.33\textwidth}
-        \centering
-        \includegraphics[width=1.1\textwidth]{HW4/RESULT/MLP_CONFUSION.png}
-        \subcaption{Tiny Image}
+        \includegraphics[width=1.1\textwidth]{HW5/RESULT/im2_w.png}
+        \subcaption{Right Rectified Image}
     \endminipage\hfill
     \caption{Multi-layer Perceptron}
 \end{figure}
