@@ -40,10 +40,15 @@ P2 = K*R2*[eye(3) -C2];
 P3 = K*R3*[eye(3) -C3];
 P4 = K*R4*[eye(3) -C4];
 
-[X1] = Triangulation(P0, P1, x1, x2);
-[X2] = Triangulation(P0, P2, x1, x2);
-[X3] = Triangulation(P0, P3, x1, x2);
-[X4] = Triangulation(P0, P4, x1, x2);
+% [X1] = Triangulation(P0, P1, x1, x2);
+% [X2] = Triangulation(P0, P2, x1, x2);
+% [X3] = Triangulation(P0, P3, x1, x2);
+% [X4] = Triangulation(P0, P4, x1, x2);
+
+[X1] = triangulate(x1,x2,P0',P1');
+[X2] = triangulate(x1,x2,P0',P2');
+[X3] = triangulate(x1,x2,P0',P3');
+[X4] = triangulate(x1,x2,P0',P4');
 %%
 % Disambiguate camera pose
 [R,C,X] = DisambiguatePose(R1,C1,X1,R2,C2,X2,R3,C3,X3,R4,C4,X4);
