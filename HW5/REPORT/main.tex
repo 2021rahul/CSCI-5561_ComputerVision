@@ -1,6 +1,6 @@
 \documentclass[letter, 10pt]{article}
 \usepackage{fullpage}
-\usepackage[margin=0.2in]{geometry}
+\usepackage[margin=0.4in]{geometry}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{caption}
@@ -21,16 +21,34 @@
 
 \subsection*{METHOD}
 \subsubsection*{SIFT FEATURE MATCHING}
-For the left and right image the sift features are extracted and matched using the ration test and bidirectional consistency, to get a set of corresponding points. The matched points are shown in Figure 1.
+For the left and right image as shown in Figure 1, the sift features are extracted and matched using the ration test and bidirectional consistency, to get a set of corresponding points. The matched points are shown in Figure 2.
 
 \subsubsection*{COMPUTING F}
-Using the set of correspondences the F is computed by solving the following linear equation, where u and v are the features from the first and second image respectively. RANSAC is used to determine the F matrix, after which SVD cleanup is done to make it rank 2. 
+Using the set of correspondences, F is computed by solving the following linear equation, where u and v are the features from the first and second image respectively. RANSAC is used to determine the F matrix, after which SVD cleanup is done to make it rank 2.
+
+\begin{equation*}
+    v^TFu = 0 \implies 
+    \begin{bmatrix}
+        v^x & v^y & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        f_{11} & f_{12} & f_{13}\\
+        f_{21} & f_{22} & f_{23}\\
+        f_{31} & f_{32} & f_{33}
+    \end{bmatrix}
+    \begin{bmatrix}
+        u^x\\
+        u^y\\
+        1
+    \end{bmatrix}
+    = 0
+\end{equation*}
 
 \subsubsection*{RECTIFICATION HOMOGRAPHIES}
-The rectification homographies for the left and right image are calculated such that the epipoles are at infinity. The warped left and right image are shown in Figure 2.
+The rectification homographies for the left and right image are calculated such that the epipoles are at infinity. The rectified left and right image are shown in Figure 3.
 
 \subsubsection*{DISPARITY CALCULATION}
-Using the warped left and right image the disparity is calculated after resizing the images to 0.2$\times$size.
+Using the warped left and right image the disparity is calculated after resizing the images to 0.3$\times$size of original image as shown in Figure 4.
 
 \subsection*{RESULTS}
 
@@ -42,7 +60,7 @@ Using the warped left and right image the disparity is calculated after resizing
     \endminipage\hfill
     \minipage{0.48\textwidth}
         \centering
-        \includegraphics[width=1\textwidth]{HW5/RESULT/im2.png}
+        \includegraphics[width=\textwidth]{HW5/RESULT/im2.png}
         \subcaption{Right Image}
     \endminipage\hfill
     \caption{Original Image}
@@ -71,7 +89,7 @@ Using the warped left and right image the disparity is calculated after resizing
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{HW5/RESULT/disp.png}
+    \includegraphics[width=0.6\textwidth]{HW5/RESULT/disp.png}
     \caption{DISPARITY MAP}
     \label{fig:my_label}
 \end{figure}
