@@ -10,11 +10,15 @@ K = [350 0 960/2;
      0 350 540/2;
          0 0 1];
 [x1, x2] = FindMatch(im1, im2);
+save("../RESULT/x1.mat",'x1');
+save("../RESULT/x2.mat",'x2');
 figure;ax=axes;
 showMatchedFeatures(im1, im2, x1, x2, 'montage','Parent',ax);
 saveas(gcf,"../RESULT/matched_points.png")
 %%
-[F] = ComputeF(x1, x2);
+% [F] = ComputeF(x1, x2);
+F = estimateFundamentalMatrix(x1,x2);
+save("../RESULT/F.mat",'F');
 %%
 % Compute four configurations of camera pose given F
 [R1, C1, R2, C2, R3, C3, R4, C4] = ComputeCameraPose(F, K);
@@ -36,23 +40,29 @@ P4 = K*R4*[eye(3) -C4];
 %%
 % Disambiguate camera pose
 [R,C,X] = DisambiguatePose(R1,C1,X1,R2,C2,X2,R3,C3,X3,R4,C4,X4);
+save("../RESULT/X.mat",'X')
 %%
 % Stereo rectification
 [H1, H2] = ComputeRectification(K, R, C);
 im1_w = WarpImage(im1, H1);
 im2_w = WarpImage(im2, H2);
-figure(1);
-imshow(im1_w);
+save("../RESULT/im1_w.mat",'im1_w')
+save("../RESULT/im2_w.mat",'im2_w')
 figure(2);
+imshow(im1_w);
+saveas(gcf,"../RESULT/im1_w.png")
+figure(3);
 imshow(im2_w);
+saveas(gcf,"../RESULT/im2_w.png")
 %%
 im1_w = imresize(im1_w, 0.3);
 im2_w = imresize(im2_w, 0.3);
 [disp] = DenseMatch(im1_w, im2_w);
+save("../RESULT/disp.mat",'disp')
 %%
-figure(3)
-clf;
+figure(4)
 imagesc(disp);
 axis equal
 axis off
 colormap(jet);
+saveas(gcf,"../RESULT/disp.png")
