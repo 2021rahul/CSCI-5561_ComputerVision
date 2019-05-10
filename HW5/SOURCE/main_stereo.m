@@ -10,9 +10,11 @@ K = [350 0 960/2;
      0 350 540/2;
          0 0 1];
 [x1, x2] = FindMatch(im1, im2);
+figure;ax=axes;
+showMatchedFeatures(im1, im2, x1, x2, 'montage','Parent',ax);
+saveas(gcf,"../RESULT/matched_points.png")
 %%
 [F] = ComputeF(x1, x2);
-% F = estimateFundamentalMatrix(x2,x1);
 %%
 % Compute four configurations of camera pose given F
 [R1, C1, R2, C2, R3, C3, R4, C4] = ComputeCameraPose(F, K);
@@ -39,14 +41,14 @@ P4 = K*R4*[eye(3) -C4];
 [H1, H2] = ComputeRectification(K, R, C);
 im1_w = WarpImage(im1, H1);
 im2_w = WarpImage(im2, H2);
-figure(1)
-imshow(im1_w)
-figure(2)
-imshow(im2_w)
+figure(1);
+imshow(im1_w);
+figure(2);
+imshow(im2_w);
 %%
-im1_w = imresize(im1_w, 0.5);
-im2_w = imresize(im2_w, 0.5);
-[disp] = DenseMatch(im2_w, im1_w);
+im1_w = imresize(im1_w, 0.3);
+im2_w = imresize(im2_w, 0.3);
+[disp] = DenseMatch(im1_w, im2_w);
 %%
 figure(3)
 clf;

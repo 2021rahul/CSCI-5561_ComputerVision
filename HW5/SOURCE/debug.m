@@ -5,11 +5,7 @@ im2 = imread('../DATA/right.bmp');
 %%
 [x1, x2] = FindMatch(im1, im2);
 %%
-F_mat = estimateFundamentalMatrix(x1,x2);
-%%
 [F] = ComputeF(x1, x2);
-%%
-F = F_mat;
 %%
 K = [350 0 960/2;
      0 350 540/2;
@@ -37,6 +33,12 @@ imshow(im2_w)
 %%
 im1_w = imresize(im1_w, 0.5);
 im2_w = imresize(im2_w, 0.5);
+%%
+im1_new=single(rgb2gray(im1));
+im2_new=single(rgb2gray(im2));
+im1_padded=zeros(size(im1,1)+9, size(im1,2)+9);
+im2_padded=zeros(size(im1,1)+9, size(im1,2)+9);
+%%
 [disparity] = DenseMatch(im1_w, im2_w);
 
 figure(1)

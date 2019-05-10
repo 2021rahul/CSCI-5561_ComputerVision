@@ -1,7 +1,7 @@
 function [F] = ComputeF(x1, x2)
     max_inliers = 0;
-    nIter = 100000;
-    epsilon = 0.0001;
+    nIter = 10000;
+    epsilon = 0.1;
     for iter = 1:nIter
         index = randperm(max(size(x1)));
         u = [x1(index(1:8),:) ones(8,1)];
@@ -11,9 +11,10 @@ function [F] = ComputeF(x1, x2)
             x = u(i,:)'*v(i,:);
             A(i,:) = x(:)';
         end
-        [~,~,V] = svd(A);
+        [~,~,V] = svd(A'*A);
         f = V(:,end);
-        F = reshape(f(:,1), [3,3])';
+        F = reshape(f, [3,3])';
+        F=F./F(3,3);
         [U,S,V] = svd(F);
         S(3,3) = 0;
         F = U*S*V';
