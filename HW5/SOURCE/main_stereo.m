@@ -62,8 +62,8 @@ figure(5);
 imshow(im2_w);
 saveas(gcf,"../RESULT/im2_w.png")
 %%
-im1_w = imresize(im1_w, 0.5);
-im2_w = imresize(im2_w, 0.5);
+im1_w = imresize(im1_w, 0.3);
+im2_w = imresize(im2_w, 0.3);
 [disp] = DenseMatch(im1_w, im2_w);
 % [disp] = disparityBM(rgb2gray(im1_w),rgb2gray(im2_w));
 save("../RESULT/disp.mat",'disp')
