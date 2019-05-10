@@ -10,7 +10,6 @@ function [x1, x2] = FindMatch(I1,I2)
     [idx21, D] = knnsearch(d1, d2, "k", 2);
     idx21 = idx21(:,1);
     idx21(D(:,1)./D(:,2) >= 0.7) = 0;
-    
     idx = BiDirectional(idx12, idx21);
     x1 = f1(idx~=0, 1:2);
     x2 = f2(idx12(idx~=0), 1:2);

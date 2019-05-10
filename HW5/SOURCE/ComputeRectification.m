@@ -1,7 +1,7 @@
 function [H1, H2] = ComputeRectification(K, R, C)
-    rx = c/norm(C);
+    rx = C/norm(C);
     rzhat = [0;0;1];
-    rz = rzhat-(rzhat*rx')*rx/norm(rzhat - (rzhat*rx')*rx);
+    rz = (rzhat-dot(rzhat,rx)*rx)/norm(rzhat-dot(rzhat,rx)*rx);
     ry = cross(rz,rx);
     Rrect = [rx';ry';rz'];
     H1 = K*Rrect/K;

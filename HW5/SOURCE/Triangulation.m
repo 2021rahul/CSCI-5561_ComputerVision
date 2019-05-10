@@ -8,9 +8,9 @@ function [X] = Triangulation(P1, P2, x1, x2)
 end
 
 function x = NullSpace(A)
-%     x = null(A);
-    [U S V] = svd(A);
-    x = V(4, :);
+    [~,~,V] = svd(A);
+    x = V(:, end);
+    x = x./x(end);
 end
 
 function Ax = SkewSymmetric(A)
