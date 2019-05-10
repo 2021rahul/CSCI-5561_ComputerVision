@@ -1,20 +1,12 @@
 function [disp] = DenseMatch(im1, im2)
-%     [H,W,~] = size(im1);
-%     [~,d1] = vl_dsift(single(padarray(rgb2gray(im1),[0 0],0,'symmetric')),'step',1,'size',1,'Geometry',[1 1 6]);
-%     [~,d2] = vl_dsift(single(padarray(rgb2gray(im2),[0 0],0,'symmetric')),'step',1,'size',1,'Geometry',[1 1 6]);
-%     num_features = min(size(d1));
-%     d1 = reshape(d1',[H W num_features]);
-%     d2 = reshape(d2',[H W num_features]);
-%     disp = zeros([H,W]);
-    
-    im1_new=single(rgb2gray(im1));
-    im2_new=single(rgb2gray(im2));
+    im1=single(rgb2gray(im1));
+    im2=single(rgb2gray(im2));
     im1_padded=zeros(size(im1,1)+9, size(im1,2)+9);
     im2_padded=zeros(size(im1,1)+9, size(im1,2)+9);
     for i=1:size(im1,1)
         for j=1:size(im1,2)
-          im1_padded(i+5,j+5)=im1_new(i,j);
-          im2_padded(i+5,j+5)=im2_new(i,j);
+          im1_padded(i+5,j+5)=im1(i,j);
+          im2_padded(i+5,j+5)=im2(i,j);
         end
     end
     [~, d1] = vl_dsift(single(im1_padded),'step',1) ;
@@ -38,5 +30,5 @@ function [disp] = DenseMatch(im1, im2)
     high = prctile(disp,98,'all');
     disp(disp<low) = low;
     disp(disp>high) = high;
-    disp(im1_new==0)=0;
+    disp(im1==0)=0;
 end
